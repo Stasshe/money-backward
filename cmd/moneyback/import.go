@@ -100,13 +100,7 @@ func (imp *Importer) ImportCSV(filePath string) (int, error) {
 			continue
 		}
 
-		txn := &ledger.Transaction{
-			ID:          ledger.generateID(), // Note: generateID is unexported, this is a simplification
-			AccountID:   imp.accountID,
-			Category:    imp.defaultCategory,
-			Amount:      amount,
-			Description: fmt.Sprintf("[%s] %s", date, description),
-		}
+		txn := ledger.NewTransaction(imp.accountID, imp.defaultCategory, amount, fmt.Sprintf("[%s] %s", date, description))
 
 		if err := imp.store.AddTransaction(txn); err != nil {
 			fmt.Fprintf(os.Stderr, "warning: failed to add transaction from line %d: %v\n", i+2, err)
