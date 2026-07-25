@@ -1,0 +1,152 @@
+{
+  "transactions": [
+    {
+      "id": "9f47c8b1a2d5e9c3",
+      "account_id": "checking_001",
+      "category": "salary",
+      "amount": 3500.00,
+      "description": "monthly salary",
+      "timestamp": "2024-01-01T00:00:00Z",
+      "tags": []
+    },
+    {
+      "id": "7e3b9c1f8a4d2b6e",
+      "account_id": "checking_001",
+      "category": "groceries",
+      "amount": -120.50,
+      "description": "weekly shopping at safeway",
+      "timestamp": "2024-01-02T14:30:00Z",
+      "tags": ["recurring"]
+    },
+    {
+      "id": "2a5b8c9f1d4e7a3c",
+      "account_id": "checking_001",
+      "category": "utilities",
+      "amount": -85.00,
+      "description": "electric bill january",
+      "timestamp": "2024-01-05T10:15:00Z",
+      "tags": []
+    },
+    {
+      "id": "6f8e2c9a4b1d5a7e",
+      "account_id": "savings_001",
+      "category": "transfer",
+      "amount": 500.00,
+      "description": "monthly transfer from checking",
+      "timestamp": "2024-01-15T08:00:00Z",
+      "tags": ["auto"]
+    },
+    {
+      "id": "3e9d4a7b2c8f1a5e",
+      "account_id": "checking_001",
+      "category": "entertainment",
+      "amount": -35.00,
+      "description": "netflix subscription",
+      "timestamp": "2024-01-20T18:45:00Z",
+      "tags": ["recurring"]
+    }
+  ],
+  "accounts": [
+    {
+      "id": "checking_001",
+      "name": "Main Checking",
+      "account_type": "checking",
+      "balance": 2859.50,
+      "currency": "USD",
+      "active": true,
+      "last_modified": "2024-01-20T18:45:00Z",
+      "initial_amount": 5000.00
+    },
+    {
+      "id": "savings_001",
+      "name": "Emergency Savings",
+      "account_type": "savings",
+      "balance": 15500.00,
+      "currency": "USD",
+      "active": true,
+      "last_modified": "2024-01-15T08:00:00Z",
+      "initial_amount": 15000.00
+    },
+    {
+      "id": "credit_card_001",
+      "name": "Chase Freedom",
+      "account_type": "credit_card",
+      "balance": -1250.75,
+      "currency": "USD",
+      "active": true,
+      "last_modified": "2024-01-18T12:30:00Z",
+      "initial_amount": 0.00
+    }
+  ],
+  "categories": [
+    {
+      "name": "Groceries",
+      "type": "expense",
+      "color": "#2ecc71",
+      "icon": "shopping",
+      "description": "Food and household groceries",
+      "active": true
+    },
+    {
+      "name": "Utilities",
+      "type": "expense",
+      "color": "#3498db",
+      "icon": "lightbulb",
+      "description": "Electricity, water, gas, internet",
+      "active": true
+    },
+    {
+      "name": "Entertainment",
+      "type": "expense",
+      "color": "#9b59b6",
+      "icon": "film",
+      "description": "Movies, streaming, events",
+      "active": true
+    },
+    {
+      "name": "Salary",
+      "type": "income",
+      "color": "#27ae60",
+      "icon": "briefcase",
+      "description": "Regular employment income",
+      "active": true
+    },
+    {
+      "name": "Transfer",
+      "type": "transfer",
+      "color": "#95a5a6",
+      "icon": "arrow",
+      "description": "Transfers between accounts",
+      "active": true
+    }
+  ],
+  "budgets": [
+    {
+      "id": "budget_groceries_001",
+      "category": "groceries",
+      "monthly_limit": 500.00,
+      "alert_threshold": 0.8,
+      "start_date": "2024-01-01T00:00:00Z",
+      "end_date": null,
+      "active": true
+    },
+    {
+      "id": "budget_utilities_001",
+      "category": "utilities",
+      "monthly_limit": 150.00,
+      "alert_threshold": 0.75,
+      "start_date": "2024-01-01T00:00:00Z",
+      "end_date": null,
+      "active": true
+    },
+    {
+      "id": "budget_entertainment_001",
+      "category": "entertainment",
+      "monthly_limit": 100.00,
+      "alert_threshold": 0.9,
+      "start_date": "2024-01-01T00:00:00Z",
+      "end_date": null,
+      "active": true
+    }
+  ]
+}
