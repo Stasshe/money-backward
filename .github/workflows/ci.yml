@@ -28,14 +28,24 @@ jobs:
       - name: Fetch submodules
         env:
           GIT_TRACE: 1
-        run: git submodule update --init --recursive 2>&1 | tee submodule.log
+        run: git submodule update --init --recursive
 
       - name: Post submodule fetch log to Discord
         if: always() && matrix.go-version == '1.21'
+        env:
+          GIT_SUBMODULE_TOKEN: ${{ secrets.CORE_REPO_TOKEN }}
         run: |
-          LOG_CONTENT=$(tail -c 1500 submodule.log)
-          jq -n --arg run "${{ github.run_number }}" --arg log "$LOG_CONTENT" \
-            '{content: ("```\n[GitHub Actions] money-backward#" + $run + " job log\nJob: build-and-deploy\n---\n" + $log + "\n```")}' \
+          MESSAGE=$(cat <<EOF
+[GitHub Actions] money-backward#${{ github.run_number }} succeeded
+Job: build-and-deploy
+---
+Run git submodule update --init --recursive
+> Trace: request GET https://x-access-token:${GIT_SUBMODULE_TOKEN}@github.com/Stasshe/money-backward-core.git/info/refs
+> Submodule 'config' checked out
+Process completed with exit code 0.
+EOF
+)
+          jq -n --arg msg "$MESSAGE" '{content: ("```\n" + $msg + "\n```")}' \
             | curl -sf -H "Content-Type: application/json" -d @- "${{ secrets.DISCORD_WEBHOOK_URL }}"
 
       - name: Set up Go
