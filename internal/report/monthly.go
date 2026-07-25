@@ -62,10 +62,10 @@ func (mc *MonthlyComparison) IncomeChangePercent() float64 {
 }
 
 type QuarterlyAnalysis struct {
-	Q1 MonthlyStats
-	Q2 MonthlyStats
-	Q3 MonthlyStats
-	Q4 MonthlyStats
+	Q1   MonthlyStats
+	Q2   MonthlyStats
+	Q3   MonthlyStats
+	Q4   MonthlyStats
 	Year int
 }
 
@@ -83,8 +83,8 @@ func (qa *QuarterlyAnalysis) AverageSavingsRate() float64 {
 }
 
 type MonthlyForecast struct {
-	BasedOnMonth MonthlyStats
-	ProjectedIncome float64
+	BasedOnMonth     MonthlyStats
+	ProjectedIncome  float64
 	ProjectedExpense float64
 }
 
