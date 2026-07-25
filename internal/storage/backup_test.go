@@ -4,6 +4,7 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+	"time"
 )
 
 func TestNewBackup(t *testing.T) {
@@ -103,6 +104,7 @@ func TestListBackups(t *testing.T) {
 		if err != nil {
 			t.Fatalf("CreateBackup failed: %v", err)
 		}
+		time.Sleep(time.Second)
 	}
 
 	backups, err := b.ListBackups()
@@ -133,6 +135,7 @@ func TestDeleteOldBackups(t *testing.T) {
 		if err != nil {
 			t.Fatalf("CreateBackup failed: %v", err)
 		}
+		time.Sleep(time.Second)
 	}
 
 	backupsBefore, _ := b.ListBackups()
