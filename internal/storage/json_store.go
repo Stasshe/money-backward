@@ -54,6 +54,9 @@ func (s *JSONStore) load() error {
 	if err != nil {
 		return err
 	}
+	if len(data) == 0 {
+		return nil
+	}
 
 	var jd JSONData
 	if err := json.Unmarshal(data, &jd); err != nil {
