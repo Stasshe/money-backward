@@ -3,13 +3,13 @@ package ledger
 import "time"
 
 type Budget struct {
-	ID             string    `json:"id"`
-	Category       string    `json:"category"`
-	MonthlyLimit   float64   `json:"monthly_limit"`
-	AlertThreshold float64   `json:"alert_threshold"` // percentage of limit (e.g., 0.8 = 80%)
-	StartDate      time.Time `json:"start_date"`
+	ID             string     `json:"id"`
+	Category       string     `json:"category"`
+	MonthlyLimit   float64    `json:"monthly_limit"`
+	AlertThreshold float64    `json:"alert_threshold"` // percentage of limit (e.g., 0.8 = 80%)
+	StartDate      time.Time  `json:"start_date"`
 	EndDate        *time.Time `json:"end_date,omitempty"`
-	Active         bool      `json:"active"`
+	Active         bool       `json:"active"`
 }
 
 func NewBudget(category string, monthlyLimit float64) *Budget {
