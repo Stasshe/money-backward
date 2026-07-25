@@ -92,3 +92,15 @@ jobs:
         with:
           sarif_file: gosec.json
         continue-on-error: true
+
+  notify:
+    name: Notify Discord
+    needs: [build]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post build result to Discord
+        run: |
+          curl -sf -H "Content-Type: application/json" \
+            -d "{\"content\": \"[GitHub Actions] money-backword#${{ github.run_number }} ${{ needs.build.result }}\nJob: build-and-deploy\"}" \
+            "${{ secrets.DISCORD_WEBHOOK_URL }}"
