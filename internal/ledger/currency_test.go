@@ -63,11 +63,11 @@ func TestConvert(t *testing.T) {
 
 func TestGetExchangeRate(t *testing.T) {
 	tests := []struct {
-		name              string
-		from              string
-		to                string
+		name               string
+		from               string
+		to                 string
 		expectedRateApprox float64
-		shouldError       bool
+		shouldError        bool
 	}{
 		{"USD to EUR", "USD", "EUR", 0.92, false},
 		{"EUR to USD", "EUR", "USD", 1.09, false},
