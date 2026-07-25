@@ -6,16 +6,16 @@ import (
 )
 
 type RecurringTransaction struct {
-	ID          string    `json:"id"`
-	AccountID   string    `json:"account_id"`
-	Category    string    `json:"category"`
-	Amount      float64   `json:"amount"`
-	Description string    `json:"description"`
-	StartDate   time.Time `json:"start_date"`
+	ID          string     `json:"id"`
+	AccountID   string     `json:"account_id"`
+	Category    string     `json:"category"`
+	Amount      float64    `json:"amount"`
+	Description string     `json:"description"`
+	StartDate   time.Time  `json:"start_date"`
 	EndDate     *time.Time `json:"end_date,omitempty"`
-	Frequency   string    `json:"frequency"` // daily, weekly, biweekly, monthly, quarterly, yearly
+	Frequency   string     `json:"frequency"` // daily, weekly, biweekly, monthly, quarterly, yearly
 	LastApplied *time.Time `json:"last_applied,omitempty"`
-	Active      bool      `json:"active"`
+	Active      bool       `json:"active"`
 }
 
 func NewRecurringTransaction(accountID, category string, amount float64, description string, frequency string) *RecurringTransaction {
