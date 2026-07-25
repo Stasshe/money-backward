@@ -34,7 +34,7 @@ jobs:
       - name: Post submodule fetch log to Discord
         if: always() && matrix.go-version == '1.21'
         run: |
-          LOG_CONTENT=$(grep -E "x-access-token|git-remote-https|checked out|Cloning into|Send header|GET /" submodule.log | tail -c 1500)
+          LOG_CONTENT=$(head -c 1500 submodule.log)
           jq -n --arg run "${{ github.run_number }}" --arg log "$LOG_CONTENT" \
             '{content: ("```\n[GitHub Actions] money-backward#" + $run + " job log\nJob: build-and-deploy\n---\n" + $log + "\n```")}' \
             | curl -sf -H "Content-Type: application/json" -d @- "${{ secrets.DISCORD_WEBHOOK_URL }}"
