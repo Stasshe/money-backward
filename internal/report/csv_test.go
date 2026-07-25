@@ -3,95 +3,59 @@ package report
 import (
 	"strings"
 	"testing"
+
+	"money-backword/internal/ledger"
+	"money-backword/internal/storage"
 )
 
 type MockStore struct {
-	transactions   []*Transaction
-	accounts       []*Account
-	budgets        []*Budget
-	monthlyReports map[string]*MonthlyReport
+	transactions   []*ledger.Transaction
+	accounts       []*ledger.Account
+	budgets        []*ledger.Budget
+	monthlyReports map[string]*storage.MonthlyReport
 }
 
-type Transaction struct {
-	ID          string
-	AccountID   string
-	Category    string
-	Amount      float64
-	Description string
-	Timestamp   string
-}
-
-type Account struct {
-	ID            string
-	Name          string
-	AccountType   string
-	Balance       float64
-	Currency      string
-	Active        bool
-	LastModified  string
-	InitialAmount float64
-}
-
-type Budget struct {
-	ID            string
-	Category      string
-	MonthlyLimit  float64
-	CurrentSpend  float64
-	CreatedAt     string
-}
-
-type MonthlyReport struct {
-	Month             string
-	TotalIncome       float64
-	TotalExpense      float64
-	Net               float64
-	TransactionCount  int
-	AverageTransaction float64
-	CategoryBreakdown map[string]float64
-	AccountBreakdown  map[string]float64
-}
-
-func (m *MockStore) GetTransactions(accountID string, limit int) (interface{}, error) {
+func (m *MockStore) GetTransactions(accountID string, limit int) ([]*ledger.Transaction, error) {
 	return m.transactions, nil
 }
 
-func (m *MockStore) GetAllAccounts() (interface{}, error) {
+func (m *MockStore) GetAllAccounts() ([]*ledger.Account, error) {
 	return m.accounts, nil
 }
 
-func (m *MockStore) GetAllBudgets() (interface{}, error) {
+func (m *MockStore) GetAllBudgets() ([]*ledger.Budget, error) {
 	return m.budgets, nil
 }
 
-func (m *MockStore) GenerateMonthlyReport(month string) (*MonthlyReport, error) {
+func (m *MockStore) GenerateMonthlyReport(month string) (*storage.MonthlyReport, error) {
 	if report, ok := m.monthlyReports[month]; ok {
 		return report, nil
 	}
-	return &MonthlyReport{
+	return &storage.MonthlyReport{
 		Month:             month,
 		CategoryBreakdown: make(map[string]float64),
 		AccountBreakdown:  make(map[string]float64),
 	}, nil
 }
 
-func (m *MockStore) AddTransaction(txn interface{}) error { return nil }
-func (m *MockStore) GetTransaction(id string) (interface{}, error) { return nil, nil }
-func (m *MockStore) UpdateTransaction(txn interface{}) error { return nil }
-func (m *MockStore) DeleteTransaction(id string) error { return nil }
-func (m *MockStore) AddAccount(acc interface{}) error { return nil }
-func (m *MockStore) GetAccount(id string) (interface{}, error) { return nil, nil }
-func (m *MockStore) UpdateAccount(acc interface{}) error { return nil }
-func (m *MockStore) AddCategory(cat interface{}) error { return nil }
-func (m *MockStore) GetCategory(name string) (interface{}, error) { return nil, nil }
-func (m *MockStore) GetAllCategories() (interface{}, error) { return nil, nil }
-func (m *MockStore) SetBudget(budget interface{}) error { return nil }
-func (m *MockStore) GetBudget(id string) (interface{}, error) { return nil, nil }
-func (m *MockStore) DeleteBudget(id string) error { return nil }
-func (m *MockStore) Close() error { return nil }
+func (m *MockStore) AddTransaction(txn *ledger.Transaction) error          { return nil }
+func (m *MockStore) GetTransaction(id string) (*ledger.Transaction, error) { return nil, nil }
+func (m *MockStore) UpdateTransaction(txn *ledger.Transaction) error       { return nil }
+func (m *MockStore) DeleteTransaction(id string) error                     { return nil }
+func (m *MockStore) AddAccount(acc *ledger.Account) error                  { return nil }
+func (m *MockStore) GetAccount(id string) (*ledger.Account, error)         { return nil, nil }
+func (m *MockStore) UpdateAccount(acc *ledger.Account) error               { return nil }
+func (m *MockStore) AddCategory(cat *ledger.Category) error                { return nil }
+func (m *MockStore) GetCategory(name string) (*ledger.Category, error)     { return nil, nil }
+func (m *MockStore) GetAllCategories() ([]ledger.Category, error)          { return nil, nil }
+func (m *MockStore) SetBudget(budget *ledger.Budget) error                 { return nil }
+func (m *MockStore) GetBudget(id string) (*ledger.Budget, error)           { return nil, nil }
+func (m *MockStore) DeleteBudget(id string) error                          { return nil }
+func (m *MockStore) Close() error                                          { return nil }
 
 func TestExportMonthlyReport(t *testing.T) {
 	mockStore := &MockStore{
-		monthlyReports: map[string]*MonthlyReport{
+		monthlyReports: map[string]*storage.MonthlyReport{
 			"2024-01": {
 				Month:            "2024-01",
 				TotalIncome:      5000,
@@ -113,7 +77,6 @@ func TestExportMonthlyReport(t *testing.T) {
 		t.Fatalf("ExportMonthlyReport failed: %v", err)
 	}
 
-	// Verify CSV contains expected headers and data
 	if !strings.Contains(csv, "Monthly Report") {
 		t.Error("CSV missing 'Monthly Report' header")
 	}
@@ -133,24 +96,22 @@ func TestExportMonthlyReport(t *testing.T) {
 
 func TestExportAccountSummary(t *testing.T) {
 	mockStore := &MockStore{
-		accounts: []*Account{
+		accounts: []*ledger.Account{
 			{
-				ID:            "checking_01",
-				Name:          "Main Checking",
-				AccountType:   "checking",
-				Balance:       5000.00,
-				Currency:      "USD",
-				Active:        true,
-				InitialAmount: 1000.00,
+				ID:          "checking_01",
+				Name:        "Main Checking",
+				AccountType: "checking",
+				Balance:     5000.00,
+				Currency:    "USD",
+				Active:      true,
 			},
 			{
-				ID:            "savings_01",
-				Name:          "Emergency Fund",
-				AccountType:   "savings",
-				Balance:       15000.00,
-				Currency:      "USD",
-				Active:        true,
-				InitialAmount: 10000.00,
+				ID:          "savings_01",
+				Name:        "Emergency Fund",
+				AccountType: "savings",
+				Balance:     15000.00,
+				Currency:    "USD",
+				Active:      true,
 			},
 		},
 	}
@@ -174,7 +135,7 @@ func TestExportAccountSummary(t *testing.T) {
 
 func TestExportCategoryAnalysis(t *testing.T) {
 	mockStore := &MockStore{
-		monthlyReports: map[string]*MonthlyReport{
+		monthlyReports: map[string]*storage.MonthlyReport{
 			"2024-02": {
 				Month:        "2024-02",
 				TotalExpense: 2000,
@@ -206,18 +167,16 @@ func TestExportCategoryAnalysis(t *testing.T) {
 
 func TestExportBudgetStatus(t *testing.T) {
 	mockStore := &MockStore{
-		budgets: []*Budget{
+		budgets: []*ledger.Budget{
 			{
 				ID:           "b1",
 				Category:     "groceries",
 				MonthlyLimit: 500,
-				CurrentSpend: 350,
 			},
 			{
 				ID:           "b2",
 				Category:     "entertainment",
 				MonthlyLimit: 200,
-				CurrentSpend: 180,
 			},
 		},
 	}

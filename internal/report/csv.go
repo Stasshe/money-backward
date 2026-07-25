@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"sort"
 
-	"money-backword/internal/ledger"
 	"money-backword/internal/storage"
 )
 
@@ -26,7 +25,6 @@ func (e *CSVExporter) ExportTransactions(accountID string, limit int) (string, e
 
 	var buf bytes.Buffer
 	writer := csv.NewWriter(&buf)
-	defer writer.Flush()
 
 	// Write header
 	header := []string{"ID", "Account", "Category", "Amount", "Description", "Timestamp"}
@@ -49,6 +47,7 @@ func (e *CSVExporter) ExportTransactions(accountID string, limit int) (string, e
 		}
 	}
 
+	writer.Flush()
 	return buf.String(), nil
 }
 
@@ -60,7 +59,6 @@ func (e *CSVExporter) ExportMonthlyReport(month string) (string, error) {
 
 	var buf bytes.Buffer
 	writer := csv.NewWriter(&buf)
-	defer writer.Flush()
 
 	// Metadata section
 	writer.Write([]string{"Monthly Report", month})
@@ -85,6 +83,7 @@ func (e *CSVExporter) ExportMonthlyReport(month string) (string, error) {
 		writer.Write([]string{cat, fmt.Sprintf("%.2f", monthlyReport.CategoryBreakdown[cat])})
 	}
 
+	writer.Flush()
 	return buf.String(), nil
 }
 
@@ -96,7 +95,6 @@ func (e *CSVExporter) ExportAccountSummary() (string, error) {
 
 	var buf bytes.Buffer
 	writer := csv.NewWriter(&buf)
-	defer writer.Flush()
 
 	writer.Write([]string{"Account ID", "Name", "Type", "Balance", "Currency", "Active"})
 
@@ -114,6 +112,7 @@ func (e *CSVExporter) ExportAccountSummary() (string, error) {
 		}
 	}
 
+	writer.Flush()
 	return buf.String(), nil
 }
 
@@ -125,7 +124,6 @@ func (e *CSVExporter) ExportCategoryAnalysis(month string) (string, error) {
 
 	var buf bytes.Buffer
 	writer := csv.NewWriter(&buf)
-	defer writer.Flush()
 
 	writer.Write([]string{"Category", "Amount", "Percentage"})
 
@@ -149,6 +147,7 @@ func (e *CSVExporter) ExportCategoryAnalysis(month string) (string, error) {
 		}
 	}
 
+	writer.Flush()
 	return buf.String(), nil
 }
 
@@ -160,7 +159,6 @@ func (e *CSVExporter) ExportBudgetStatus() (string, error) {
 
 	var buf bytes.Buffer
 	writer := csv.NewWriter(&buf)
-	defer writer.Flush()
 
 	writer.Write([]string{"Category", "Monthly Limit", "Status"})
 
@@ -173,5 +171,6 @@ func (e *CSVExporter) ExportBudgetStatus() (string, error) {
 		}
 	}
 
+	writer.Flush()
 	return buf.String(), nil
 }
