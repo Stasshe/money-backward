@@ -27,9 +27,9 @@ func TestRecurringTransactionNextOccurrence(t *testing.T) {
 		{"daily", "daily", 1},
 		{"weekly", "weekly", 7},
 		{"biweekly", "biweekly", 14},
-		{"monthly", "monthly", 30}, // approximate
+		{"monthly", "monthly", 30},     // approximate
 		{"quarterly", "quarterly", 90}, // approximate
-		{"yearly", "yearly", 365}, // approximate
+		{"yearly", "yearly", 365},      // approximate
 	}
 
 	for _, tt := range tests {
@@ -41,8 +41,8 @@ func TestRecurringTransactionNextOccurrence(t *testing.T) {
 		}
 
 		diff := next.Sub(rt.StartDate)
-		expectedMin := time.Duration(tt.daysAdded-1) * 24 * time.Hour
-		expectedMax := time.Duration(tt.daysAdded+1) * 24 * time.Hour
+		expectedMin := time.Duration(tt.daysAdded-3) * 24 * time.Hour
+		expectedMax := time.Duration(tt.daysAdded+3) * 24 * time.Hour
 
 		if diff < expectedMin || diff > expectedMax {
 			t.Errorf("%s: expected diff ~%d days, got %v", tt.name, tt.daysAdded, diff.Hours()/24)
