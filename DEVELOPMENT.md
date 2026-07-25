@@ -1,8 +1,8 @@
 # Development Guide
 
-## Architecture Overview
+## アーキテクチャ概要
 
-money-backword follows a layered architecture pattern:
+money-backwordはレイヤードアーキテクチャ:
 
 ```
 ┌─────────────────────────────┐
@@ -20,78 +20,78 @@ money-backword follows a layered architecture pattern:
 └─────────────────────────────┘
 ```
 
-## Package Structure
+## パッケージ構成
 
 ### `internal/ledger`
-Core domain models representing the business domain:
-- `Account`: Represents a financial account
-- `Transaction`: A single monetary transaction
-- `Category`: Expense/income classification
-- `Budget`: Monthly spending limits
+ビジネスドメイン表すコアモデル:
+- `Account`: 口座
+- `Transaction`: 1件の取引
+- `Category`: 支出/収入分類
+- `Budget`: 月次予算上限
 
-These are pure Go structs with validation methods.
+バリデーションメソッド付き素のGo struct。
 
 ### `internal/storage`
-Storage abstraction layer. Defines a `Store` interface with implementations:
-- `JSONStore`: File-based JSON persistence
+Storage抽象化層。`Store`インターフェースと実装:
+- `JSONStore`: ファイルベースJSON永続化
 
-Future implementations:
-- `SQLiteStore`: Database-backed persistence
+将来実装予定:
+- `SQLiteStore`: DBバックエンド永続化
 
 ### `internal/api`
-HTTP API handlers and routing. Implements RESTful endpoints for:
+HTTP APIハンドラ・ルーティング。RESTfulエンドポイント:
 - `/api/transactions` — transaction CRUD
-- `/api/accounts` — account management
-- `/api/budgets` — budget management
-- `/api/report` — financial reporting
+- `/api/accounts` — 口座管理
+- `/api/budgets` — 予算管理
+- `/api/report` — 財務レポート
 
 ### `internal/report`
-Report generation and financial analysis:
-- Monthly summaries
-- Category analysis
-- Trend calculations
-- Future: CSV/PDF export
+レポート生成・財務分析:
+- 月次サマリー
+- カテゴリ別分析
+- トレンド計算
+- 将来: CSV/PDFエクスポート
 
 ### `cmd/moneyback`
-CLI application. Parses command-line flags and delegates to business logic.
+CLIアプリ。コマンドラインフラグ解析しビジネスロジックへ委譲。
 
-## Development Workflow
+## 開発フロー
 
-### Adding a New Feature
+### 新機能追加時
 
-1. **Define the domain model** in `internal/ledger/`
-2. **Add storage methods** to the `Store` interface and implementations
-3. **Add CLI commands** or API handlers
-4. **Write tests** for the feature
-5. **Update documentation** in README and this file
+1. `internal/ledger/`にドメインモデル定義
+2. `Store`インターフェースと実装にstorageメソッド追加
+3. CLIコマンドまたはAPIハンドラ追加
+4. テスト作成
+5. READMEと本ファイルのドキュメント更新
 
-### Testing
+### テスト
 
 ```bash
-# Run all tests
+# 全テスト実行
 go test -v ./...
 
-# Run tests with race detection
+# race detection付き
 go test -race ./...
 
-# Generate coverage report
+# カバレッジレポート生成
 go test -cover ./...
 
-# Coverage HTML report
+# カバレッジHTMLレポート
 go test -coverprofile=coverage.out ./...
 go tool cover -html=coverage.out
 ```
 
-### Code Style
+### コードスタイル
 
-Follow [Effective Go](https://golang.org/doc/effective_go):
-- Use `gofmt` for formatting
-- Use `go vet` to check code quality
-- Prefer explicit error handling
-- Use table-driven tests
-- Keep functions small and focused
+[Effective Go](https://golang.org/doc/effective_go)準拠:
+- フォーマットは`gofmt`
+- コード品質チェックは`go vet`
+- エラーハンドリングは明示的に
+- table-driven test使う
+- 関数は小さく単一責務に保つ
 
-### Database Schema (for future SQLite implementation)
+### DBスキーマ（将来のSQLite実装用）
 
 ```sql
 -- Accounts
@@ -139,32 +139,32 @@ CREATE TABLE budgets (
 );
 ```
 
-## Known TODOs
+## 既知のTODO
 
-- [ ] Implement CSV export for reports
-- [ ] Add SQLite support as alternative storage
-- [ ] Implement budget spending tracking
-- [ ] Add forecasting based on historical trends
-- [ ] Support recurring transactions
-- [ ] Multi-currency support
-- [ ] Import from CSV/OFX format
-- [ ] Transaction reconciliation
-- [ ] API authentication
+- [ ] レポートのCSVエクスポート実装
+- [ ] SQLite対応をstorageの選択肢として追加
+- [ ] 予算消化トラッキング実装
+- [ ] 過去傾向ベースの予測機能追加
+- [ ] 定期取引対応
+- [ ] 複数通貨対応
+- [ ] CSV/OFX形式からのインポート
+- [ ] 取引照合機能
+- [ ] API認証
 
-## Performance Considerations
+## パフォーマンス上の注意
 
-- JSON store suitable for personal/small-team use (<10k transactions)
-- For larger datasets, plan migration to SQLite
-- All in-memory operations for speed
-- Consider caching for frequently generated reports
+- JSON storeは個人/小規模チーム利用向け（1万件未満想定）
+- 大規模データセットはSQLiteへの移行を検討
+- 速度優先で全てインメモリ操作
+- 頻繁に生成するレポートはキャッシュ検討
 
-## Security Notes
+## セキュリティ上の注意
 
-- Input validation on all user-provided data
-- JSON store file permissions should be restricted (mode 0600)
-- Sensitive data should be handled carefully
-- No encryption at rest currently (consider for future versions)
+- ユーザー入力は全てバリデーション
+- JSON storeファイルのパーミッションは制限すべき（mode 0600）
+- 機密データの取り扱いは慎重に
+- 現状保存時暗号化なし（将来バージョンで検討）
 
 ## Contributing
 
-See [CONTRIBUTORS.md](CONTRIBUTORS.md) and README.md for contribution guidelines.
+貢献ガイドラインは[CONTRIBUTORS.md](CONTRIBUTORS.md)とREADME.md参照。
