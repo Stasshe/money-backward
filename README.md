@@ -21,8 +21,8 @@ Go製の個人・家計向け資産管理アプリ。口座、取引、カテゴ
 Go 1.21以降必須。
 
 ```bash
-git clone https://github.com/yourusername/money-backword.git
-cd money-backword
+git clone https://github.com/Stasshe/money-backward.git
+cd money-backward
 go build ./cmd/moneyback
 ```
 
@@ -132,7 +132,7 @@ golangci-lint run ./...
 - **API** (internal/api): HTTPハンドラ
 - **CLI** (cmd/moneyback): コマンドラインインターフェース
 
-将来的にコアledgerロジックはチーム内共有用にprivateな`money-backword-core`submoduleへ切り出す予定。
+将来的にコアledgerロジックはチーム内共有用にprivateな`money-backward-core`submoduleへ切り出す予定。
 
 ## Contributing
 
