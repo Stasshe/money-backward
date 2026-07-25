@@ -152,10 +152,6 @@ golangci-lint run ./...
 - 関数は30行以内が目安
 - panicより明示的なエラーハンドリングを優先
 
-## コミュニティ
-
-Discordサーバーあります（今はあんまり動いてないです…）。基本的にはGitHub issueでやり取りしてる。参加したい場合はissue経由で連絡を。
-
 ## License
 
 MIT License — 詳細は[LICENSE](LICENSE)参照。
