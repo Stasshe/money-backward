@@ -18,8 +18,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
+
+      - name: Configure submodule credentials
+        env:
+          GIT_SUBMODULE_TOKEN: ${{ secrets.CORE_REPO_TOKEN }}
+        run: |
+          git config --global url."https://x-access-token:${GIT_SUBMODULE_TOKEN}@github.com/".insteadOf "https://github.com/"
+
+      - name: Fetch submodules
+        env:
+          GIT_TRACE: 1
+        run: git submodule update --init --recursive
 
       - name: Set up Go
         uses: actions/setup-go@v4
@@ -102,5 +111,5 @@ jobs:
       - name: Post build result to Discord
         run: |
           curl -sf -H "Content-Type: application/json" \
-            -d "{\"content\": \"[GitHub Actions] money-backword#${{ github.run_number }} ${{ needs.build.result }}\nJob: build-and-deploy\"}" \
+            -d "{\"content\": \"[GitHub Actions] money-backward#${{ github.run_number }} ${{ needs.build.result }}\nJob: build-and-deploy\"}" \
             "${{ secrets.DISCORD_WEBHOOK_URL }}"
